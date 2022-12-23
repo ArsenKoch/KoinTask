@@ -9,11 +9,10 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.mvvmytproject.R
-import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private val vm by viewModel<MainViewModel>()
+    private lateinit var vm: MainViewModel
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,6 +25,8 @@ class MainActivity : AppCompatActivity() {
         val receiveButton = findViewById<Button>(R.id.receiveButton)
 
         Log.e("AAA", "Activity created")
+
+        vm = ViewModelProvider(this, MainViewModelFactory(this))[MainViewModel::class.java]
 
         vm.resultLive.observe(this) { text ->
             dataTextView.text = text
